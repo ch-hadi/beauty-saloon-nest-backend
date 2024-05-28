@@ -13,6 +13,7 @@ import { EmailModule } from './email/email.module';
 import { GraphsModule } from './graphs/graphs.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -38,7 +39,7 @@ import { FileUploadModule } from './file-upload/file-upload.module';
             ? ['query', 'error', 'log']
             : 'all',
         logger: 'advanced-console',
-        // synchronize: true,
+        synchronize: false,
         autoLoadEntities: true,
         maxQueryExecutionTime: 300,
       }),
@@ -51,6 +52,7 @@ import { FileUploadModule } from './file-upload/file-upload.module';
     GraphsModule,
     UserProfileModule,
     FileUploadModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [

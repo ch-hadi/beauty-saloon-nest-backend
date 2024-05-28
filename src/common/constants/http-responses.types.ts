@@ -97,3 +97,28 @@ export const enum ACCOUNT_VERIFIED {
   status = 200,
   message = 'Account verified successfully',
 }
+export const enum UNABLE_TO_CREATE_PRODUCT {
+  status = 400,
+  message = 'Unable to create product.'
+}
+export const enum CREATE_CATEGORY {
+  status = 200,
+  message = 'Category created successfully.'
+}
+export const enum CATEGORY_ERROR {
+  status = 400,
+  message = 'Please select a category'
+}
+export const enum UNABLE_TO_CREATE_CATEGORY {
+  status = 400,
+  message = 'Unable to create product.'
+}
+export const enum UNABLE_TO_GET_CATEGORY {
+  status = 400,
+  message = 'Unable to get categories.'
+}
+// 
+export const enum PRODUCT_NOT_FOUND {
+  status = 404,
+  message = 'Product not found.'
+}

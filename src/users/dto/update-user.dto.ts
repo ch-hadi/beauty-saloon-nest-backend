@@ -8,7 +8,7 @@ export class UpdateUserDto {
   @IsString()
   @IsNotEmpty({ message: 'first name is required' })
   firstName: string;
-
+  
   @ApiProperty({
     example: '',
   })
