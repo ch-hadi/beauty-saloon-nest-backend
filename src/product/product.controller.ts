@@ -1,12 +1,12 @@
-import { Body, Controller, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 // import { Product } from './entities/product.entity';
 // import { InjectRepository } from '@nestjs/typeorm';
 // import { Repository } from 'typeorm';
 import { ProductService } from './product.service';
 import { createProductDTO } from './dto/product.dto';
-import { createCategoryDTO } from './dto/category.dto';
 import { updateProduct } from './dto/update-product.dto';
+import { JwtAuthGuard } from '@/auth/guards/local-auth.guard';
 // import { JwtAuthGuard } from '@/auth/guards/local-auth.guard';
 
 @ApiTags('Product')
@@ -16,15 +16,15 @@ export class ProductController {
   constructor(private readonly productSerivces: ProductService) {}
 
   @Get()
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async allProducts() {
     const all = await this.productSerivces.getAllProducts();
     return all;
   }
 
-  async allCategories(){
-    return this.productSerivces.getAllCategories()
-  }
+  // async allCategories(){
+  //   return this.productSerivces.getAllCategories()
+  // }
   @Post()
   createNew(
     @Body() body:createProductDTO,
@@ -40,8 +40,9 @@ export class ProductController {
     return this.productSerivces.update(id,body)
   }
 
-  @Post('category')
-  createCategory(@Body() body:createCategoryDTO){
-      return this.productSerivces.createCategory(body)
-    }
+  @Delete(':id')
+  deleteProduct(@Param('id') id: string){
+    return this.productSerivces.delete(id)
+  }
+
 }

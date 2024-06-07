@@ -19,10 +19,10 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Zeal-driven-solutions')
-    .setDescription('Zeal-driven-solutions Apis')
+    .setTitle('Saloon Application')
+    .setDescription('Saloon App Apis')
     .setVersion('1.0')
-    .addTag('Zeal-driven-solutions Api')
+    .addTag('Saloon App Api')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);

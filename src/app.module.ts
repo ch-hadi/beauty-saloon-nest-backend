@@ -14,6 +14,7 @@ import { GraphsModule } from './graphs/graphs.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { ProductModule } from './product/product.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { ProductModule } from './product/product.module';
     UserProfileModule,
     FileUploadModule,
     ProductModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [
