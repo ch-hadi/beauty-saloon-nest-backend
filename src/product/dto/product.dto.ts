@@ -21,4 +21,7 @@ export class createProductDTO {
   @IsString()
   @IsNotEmpty({message:'Category ID is required.'})
   categoryId: string;
+
+  @ApiProperty({ type: 'string', format: 'binary' })
+  image: string;
 }

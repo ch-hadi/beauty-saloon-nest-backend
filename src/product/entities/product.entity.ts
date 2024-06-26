@@ -31,4 +31,7 @@ export class Product extends Model {
   onDelete:'CASCADE',
  })
  category:Category
+ 
+ @Column()
+ image: string;
 }

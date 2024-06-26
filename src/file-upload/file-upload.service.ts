@@ -3,6 +3,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { ManagedUpload } from 'aws-sdk/clients/s3';
 import { Response } from 'express';
+import * as multer from 'multer';
 
 @Injectable()
 export class FileUploadService {
@@ -88,5 +89,16 @@ export class FileUploadService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  async uploadFile(file: Express.Multer.File){
+    const filePath = file.path; // Path to the uploaded file
+    console.log(file.path);
+    // Optional: Further processing or validation
+
+    // Save the file locally using fs promises
+    // await fs.promises.rename(filePath, `./custom/folder/${file.originalname}`);
+
+    // return `./custom/folder/${file.originalname}`; // Return the new file path
   }
 }
