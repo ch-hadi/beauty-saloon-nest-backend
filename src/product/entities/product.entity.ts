@@ -1,6 +1,7 @@
 import Model from '@/common/entities/Model.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { Category } from '../../category/entity/category.entity';
+// import { Category } from '../../category/entity/category.entity';
+import { SubCategory } from '@/sub-category/entity/subCategory.entity';
 
 @Entity('product')
 export class Product extends Model {
@@ -26,12 +27,12 @@ export class Product extends Model {
     nullable: false,
   })
   productDescription: string;
-
- @ManyToOne(()=>Category, (category)=>category.product, {
-  onDelete:'CASCADE',
- })
- category:Category
  
+ @ManyToOne(()=>SubCategory, (subCat)=>subCat.product, {
+  onDelete:'CASCADE'
+ })
+ subCategory:SubCategory
+
  @Column()
  image: string;
 }

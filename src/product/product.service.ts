@@ -6,20 +6,21 @@ import { createProductDTO } from './dto/product.dto';
 import { PRODUCT_NOT_FOUND, UNABLE_TO_CREATE_CATEGORY, UNABLE_TO_CREATE_PRODUCT, UNABLE_TO_GET_CATEGORY } from '@/common/constants/http-responses.types';
 // import { createCategoryDTO } from '../category/dto/category.dto';
 import { updateProduct } from './dto/update-product.dto';
-import { Category } from '@/category/entity/category.entity';
+// import { Category } from '@/category/entity/category.entity';
+import { SubCategory } from '@/sub-category/entity/subCategory.entity';
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepo: Repository<Product>,
     private readonly dataSource: DataSource,
-    @InjectRepository(Category)
-    private readonly categoryRepo:Repository<Category>
+    @InjectRepository(SubCategory)
+    private readonly subCategoryRepo:Repository<SubCategory>
   ) {}
   async getAllProducts() {
     const all = await this.productRepo.find({
       relations:{
-        category:true
+        subCategory:true
       }
     });
     return all;
@@ -28,17 +29,20 @@ export class ProductService {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.startTransaction();
     try {
-      const category = await this.categoryRepo.findOne({
+      const category = await this.subCategoryRepo.findOne({
         where: { id: productDto.categoryId },
       });
+
+      console.log('cate',category)
       if (!category) {
         throw new HttpException('Category not found', 404);
       }
+
       const newProduct = this.productRepo.create({
         ...productDto,
-        category: category,
+        subCategory: category,
       });
-
+      // console.log('new',newProduct)
       await this.productRepo.save(newProduct);
       await queryRunner.commitTransaction();
       return newProduct;
@@ -60,15 +64,16 @@ export class ProductService {
             id:id
           },
           relations:{
-            category:true
+            subCategory:true
           }
         })
         if(body.categoryId){
-          const category = await this.categoryRepo.findOne({
+          const category = await this.subCategoryRepo.findOne({
             where:{
               id:body.categoryId
             }
           })
+
           if (!category) {
             throw new HttpException('Category not found', 404);
           }
@@ -77,7 +82,7 @@ export class ProductService {
             productName:body.productName,
             productPrice:body.productPrice,
             productDescription:body.productDescription,
-            category:category
+            subCategory:category
           })
          
         }
@@ -89,7 +94,7 @@ export class ProductService {
         }
   }
   // async getAllCategories(){
-  //   const allCategories = await this.categoryRepo.find()
+  //   const allCategories = await this subCategoryRepo.find()
   //   if(allCategories){
   //     return {status:HttpStatus.OK, allCategories}
   //   }

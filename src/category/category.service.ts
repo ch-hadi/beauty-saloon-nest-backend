@@ -9,7 +9,8 @@ export class CategoryService {
     constructor(
         private readonly dataSource:DataSource,
         @InjectRepository(Category)
-        private readonly categoryRepo:Repository<Category>){}
+        private readonly categoryRepo:Repository<Category>,
+      ){}
 
     async getAllCategories(){
         const allCategories = await this.categoryRepo.find()
@@ -38,6 +39,7 @@ export class CategoryService {
           throw new Error(error)
         }
       }
+
       async delete(id:string){
           const category = await this.categoryRepo.find({where:{id}})
           if(!category || category.length===0){

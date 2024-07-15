@@ -54,10 +54,10 @@ export class UsersService {
     await queryRunner.startTransaction();
     try {
       // Create a customer on stripe as well
-      const stripeCustomer = await this.stripService.createCustomer({
-        email: body.email,
-        name: body.firstName + body.lastName,
-      });
+      // const stripeCustomer = await this.stripService.createCustomer({
+      //   email: body.email,
+      //   name: body.firstName + body.lastName,
+      // });
 
       const otp = helper.generateOTP();
 
@@ -68,12 +68,11 @@ export class UsersService {
         userRole: UserRoles.USER,
         otpCode: otp,
         emailVerified: false,
-        stripeCustomerId: stripeCustomer.id,
+        stripeCustomerId: 'oiioioooii',
         OtpExpiryTime: expiryTime,
       });
 
       const saveOne = await queryRunner.manager.save(user);
-
       const userProfile = queryRunner.manager.create(UserProfile, {
         ...rest,
         user: saveOne,
@@ -82,18 +81,18 @@ export class UsersService {
       const profile = await queryRunner.manager.save(userProfile);
 
       const { avatar, firstName, lastName, phoneNumber } = profile;
-
-      await this.emailService.sendRegistrationOTP(
-        email,
-        otp,
-        userProfile?.fullName,
-      );
+      console.log('=>',profile)
+      // await this.emailService.sendRegistrationOTP(
+      //   email,
+      //   otp,
+      //   userProfile?.fullName,
+      // );
 
       await queryRunner.commitTransaction();
       return { ...saveOne, avatar, firstName, lastName, phoneNumber };
     } catch (error: any) {
       await queryRunner.rollbackTransaction();
-
+      console.log('first',error)
       throw new HttpException(
         error?.response?.body?.errors[0]?.message || error.message,
         HttpStatus.INTERNAL_SERVER_ERROR,

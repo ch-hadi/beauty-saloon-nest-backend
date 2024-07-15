@@ -15,6 +15,12 @@ import { UserProfileModule } from './user-profile/user-profile.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
+import { Users } from './users/entities/user.entity';
+import { DataSource } from 'typeorm';
+import { Category } from './category/entity/category.entity';
+import { SubCategory } from './sub-category/entity/subCategory.entity';
+import { Product } from './product/entities/product.entity';
+import { SubCategoryModule } from './sub-category/sub-category.module';
 
 @Module({
   imports: [
@@ -24,27 +30,24 @@ import { CategoryModule } from './category/category.module';
     // TypeOrmModule.forRootAsync({
     //   useClass: TypeOrmConfigService,
     // }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
+    TypeOrmModule.forRoot({
         type: 'mysql',
-        host: configService.get('DATABASE_HOST'),
-        port: +configService.get('DATABASE_PORT'),
-        username: configService.get('DATABASE_USER_NAME'),
-        password: configService.get('DATABASE_PASSWORD'),
-        database: configService.get('DATABASE_NAME'),
-        entities: [],
-
-        logging:
-          configService.get<string>('NODE_ENV') === 'PROD'
-            ? ['query', 'error', 'log']
-            : 'all',
+        host: 'localhost',
+        port: 3306,
+        username: 'root',
+        password: 'root',
+        database:'salon',
+        entities: [Category, SubCategory, Users, Product],
+        // logging:
+        //   configService.get<string>('NODE_ENV') === 'PROD'
+        //     ? ['query', 'error', 'log']
+        //     : 'all',
         logger: 'advanced-console',
         synchronize: false,
         autoLoadEntities: true,
         maxQueryExecutionTime: 300,
-      }),
-      inject: [ConfigService],
+      // }),
+      // inject: [ConfigService],
     }),
     AuthModule,
     UsersModule,
@@ -55,6 +58,7 @@ import { CategoryModule } from './category/category.module';
     FileUploadModule,
     ProductModule,
     CategoryModule,
+    SubCategoryModule,
   ],
   controllers: [AppController],
   providers: [
@@ -69,3 +73,4 @@ import { CategoryModule } from './category/category.module';
   ],
 })
 export class AppModule {}
+

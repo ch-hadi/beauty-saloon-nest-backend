@@ -6,7 +6,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 
 async function bootstrap() {
-  const PORT: number = parseInt(process.env.PORT, 10) || 5000;
+  const PORT: number = parseInt(process.env.PORT, 10) || 3011;
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { rawBody: true });
 
   // Enable CORS
